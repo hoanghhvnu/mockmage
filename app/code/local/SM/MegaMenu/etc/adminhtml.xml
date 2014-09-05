@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <megamenu translate="title" module="adminhtml">
+
+            <title>Mega menu</title>
+            <sort_order>100</sort_order>
+            <action>megamenu/adminhtml_megamenu</action>
+
+            <children>
+                <manage_menu translate="title">
+
+                    <title>Manage Megamenu</title>
+                    <action>oseua/oeuas</action>
+                </manage_menu>
+
+
+            </children>
+        </megamenu>
+    </menu>
+
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <SM_MegaMenu>
+                        <title>MegaMenu module</title>
+                        <sort_order>10</sort_order>
+                    </SM_MegaMenu>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

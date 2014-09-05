@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <album translate="label" module="album">
+            <label>Album</label>
+            <sort_order>10</sort_order>
+        </album>
+    </tabs>
+
+    <sections>
+        <advanced translate="label" module="core">
+            <label>Disable/Enable</label>
+            <tab>album</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>0</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <modules_disable_output translate="label">
+                    <label>Disable modules output</label>
+                    <frontend_type>text</frontend_type>
+                    <frontend_model>adminhtml/system_config_form_fieldset_modules_disableOutput</frontend_model>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </modules_disable_output>
+            </groups>
+        </advanced>
+    </sections>
+</config>
