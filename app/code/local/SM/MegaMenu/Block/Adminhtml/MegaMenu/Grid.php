@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luoi
- * Date: 9/5/14
- * Time: 10:37 AM
- */ 
-<?php
 
-class SM_MegaMenu_Block_Adminhtml_MegaMenu_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class SM_Megamenu_Block_Adminhtml_Megamenu_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
   public function __construct()
   {
+      echo __METHOD__;
       parent::__construct();
       $this->setId('megamenuGrid');
       $this->setDefaultSort('megamenu_id');
@@ -20,36 +14,64 @@ class SM_MegaMenu_Block_Adminhtml_MegaMenu_Grid extends Mage_Adminhtml_Block_Wid
 
   protected function _prepareCollection()
   {
-      $collection = Mage::getModel('web/web')->getCollection();
+      $collection = Mage::getModel('megamenu/megamenu')->getCollection();
       $this->setCollection($collection);
       return parent::_prepareCollection();
   }
 
   protected function _prepareColumns()
   {
-      $this->addColumn('web_id', array(
-          'header'    => Mage::helper('web')->__('ID'),
+      $this->addColumn('megamenu_id', array(
+          'header'    => Mage::helper('megamenu')->__('ID'),
           'align'     =>'right',
           'width'     => '50px',
-          'index'     => 'web_id',
+          'index'     => 'megamenu_id',
       ));
 
       $this->addColumn('title', array(
-          'header'    => Mage::helper('web')->__('Title'),
+          'header'    => Mage::helper('megamenu')->__('Title'),
           'align'     =>'left',
+
           'index'     => 'title',
       ));
 
-	  /*
-      $this->addColumn('content', array(
-			'header'    => Mage::helper('web')->__('Item Content'),
-			'width'     => '150px',
-			'index'     => 'content',
+      $this->addColumn('type', array(
+          'header'    => Mage::helper('megamenu')->__('Type'),
+          'align'     =>'left',
+          'index'     => 'type',
+          'type'      => 'options',
+          'options'   => array(
+              1 => 'Category link',
+              2 => 'Custom link',
+              3 => 'Block link',
+          ),
       ));
-	  */
+
+
+
+      $this->addColumn('link', array(
+          'header'    => Mage::helper('megamenu')->__('Link'),
+          'align'     =>'left',
+
+          'index'     => 'link',
+      ));
+
+      $this->addColumn('category_id', array(
+          'header'    => Mage::helper('megamenu')->__('CategoryID'),
+          'align'     =>'left',
+
+          'index'     => 'category_id',
+      ));
+
+      $this->addColumn('static_block_id', array(
+          'header'    => Mage::helper('megamenu')->__('Static block Id'),
+          'align'     =>'left',
+
+          'index'     => 'static_block_id',
+      ));
 
       $this->addColumn('status', array(
-          'header'    => Mage::helper('web')->__('Status'),
+          'header'    => Mage::helper('megamenu')->__('Status'),
           'align'     => 'left',
           'width'     => '80px',
           'index'     => 'status',
@@ -59,16 +81,23 @@ class SM_MegaMenu_Block_Adminhtml_MegaMenu_Grid extends Mage_Adminhtml_Block_Wid
               2 => 'Disabled',
           ),
       ));
+
+      $this->addColumn('position', array(
+          'header'    => Mage::helper('megamenu')->__('Position'),
+          'align'     =>'left',
+
+          'index'     => 'position',
+      ));
 	  
         $this->addColumn('action',
             array(
-                'header'    =>  Mage::helper('web')->__('Action'),
+                'header'    =>  Mage::helper('megamenu')->__('Action'),
                 'width'     => '100',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption'   => Mage::helper('web')->__('Edit'),
+                        'caption'   => Mage::helper('megamenu')->__('Edit'),
                         'url'       => array('base'=> '*/*/edit'),
                         'field'     => 'id'
                     )
@@ -78,36 +107,37 @@ class SM_MegaMenu_Block_Adminhtml_MegaMenu_Grid extends Mage_Adminhtml_Block_Wid
                 'index'     => 'stores',
                 'is_system' => true,
         ));
+
 		
-		$this->addExportType('*/*/exportCsv', Mage::helper('web')->__('CSV'));
-		$this->addExportType('*/*/exportXml', Mage::helper('web')->__('XML'));
+		$this->addExportType('*/*/exportCsv', Mage::helper('megamenu')->__('CSV'));
+		$this->addExportType('*/*/exportXml', Mage::helper('megamenu')->__('XML'));
 	  
       return parent::_prepareColumns();
   }
 
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('web_id');
-        $this->getMassactionBlock()->setFormFieldName('web');
+        $this->setMassactionIdField('megamenu_id');
+        $this->getMassactionBlock()->setFormFieldName('megamenu');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('web')->__('Delete'),
+             'label'    => Mage::helper('megamenu')->__('Delete'),
              'url'      => $this->getUrl('*/*/massDelete'),
-             'confirm'  => Mage::helper('web')->__('Are you sure?')
+             'confirm'  => Mage::helper('megamenu')->__('Are you sure?')
         ));
 
-        $statuses = Mage::getSingleton('web/status')->getOptionArray();
+        $statuses = Mage::getSingleton('megamenu/status')->getOptionArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
-             'label'=> Mage::helper('web')->__('Change status'),
+             'label'=> Mage::helper('megamenu')->__('Change status'),
              'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
                          'type' => 'select',
                          'class' => 'required-entry',
-                         'label' => Mage::helper('web')->__('Status'),
+                         'label' => Mage::helper('megamenu')->__('Status'),
                          'values' => $statuses
                      )
              )
