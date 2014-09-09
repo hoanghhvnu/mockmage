@@ -58,6 +58,38 @@ class SM_Megamenu_Block_Megamenu extends Mage_Core_Block_Template
         return $ListItem;
     } // end getMegaItem
 
+    public function showCategory($CategoryId='', $isRoot=''){
+        $CateDetail = Mage::getModel('catalog/category')
+            ->load($CategoryId);
+        $result = '';
+
+        if($isRoot != TRUE){
+            $result .= "<li>" . "<a href='" . $CateDetail['url_path'] . "'>" . $CateDetail['name'] . "</a>";
+        }
+
+
+        if ($CateDetail->hasChildren() === TRUE){
+            if($isRoot != TRUE){
+                $result .= "<ul>";
+            }
+
+            $ChildIdString = $CateDetail->getChildren();
+            $ChildIdArray = explode(',', $ChildIdString);
+            foreach ($ChildIdArray as $ChildId){
+                $result .= $this->showCategory($ChildId);
+            }
+            if($isRoot != TRUE){
+                $result .= "</ul>";
+            }
+
+        }
+        if($isRoot != TRUE){
+            $result .= "</li>";
+        }
+
+        return $result;
+    } // end showCategory()
+
     public function createCustomLink($Title = "", $Link=''){
         $link = '';
         if($Title && $Link){
@@ -69,18 +101,35 @@ class SM_Megamenu_Block_Megamenu extends Mage_Core_Block_Template
     } // end createCustomLink
 
     public function createBlockLink($Title='', $BlockId=''){
+        $link = '';
         if($Title && $BlockId){
             $BlockModel = Mage::getModel('cms/block')
                 ->load($BlockId)
             ;
-            return $BlockModel->getContent();
+//            $link .= "<a href='#'>";
+            $link .= $Title;
+            $link .= "<ul>";
+            $link .= "<li>";
+            $link .= $BlockModel->getContent();
+            $link .= "</li>";
+            $link .= "</ul>";
+//            $link .= "</a>";
+            return $link;
         }
         return FALSE;
     } // end createCategoryLink
 
     public function createCategoryLink($Title='', $CategoryId=''){
+        $link = '';
         if($Title && $CategoryId){
-            return $CategoryId;
+            $link .= "<a href='#'>";
+            $link .= $Title;
+            $link .= "</a>";
+            $link .= "<ul id = 'catelink'>";
+            $link .= $this->showCategory($CategoryId, TRUE);
+            $link .= "</ul>";
+            return $link;
+
         }
     } // end createCategoryLink
 

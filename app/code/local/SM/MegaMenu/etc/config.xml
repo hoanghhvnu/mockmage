@@ -85,6 +85,11 @@
             <megamenu>
                 <class>SM_Megamenu_Block</class>
             </megamenu>
+            <!--<page>-->
+                <!--<rewrite>-->
+                    <!--<html_topmenu>SM_Megamenu_Block_Megamenu</html_topmenu>-->
+                <!--</rewrite>-->
+            <!--</page>-->
         </blocks>
         <helpers>
             <megamenu>

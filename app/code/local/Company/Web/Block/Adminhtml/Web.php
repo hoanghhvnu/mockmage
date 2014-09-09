@@ -3,6 +3,7 @@ class Company_Web_Block_Adminhtml_Web extends Mage_Adminhtml_Block_Widget_Grid_C
 {
   public function __construct()
   {
+    echo __METHOD__;
     $this->_controller = 'adminhtml_web';
     $this->_blockGroup = 'web';
     $this->_headerText = Mage::helper('web')->__('Item Manager');

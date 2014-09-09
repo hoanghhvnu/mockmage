@@ -9,6 +9,7 @@ class Company_Web_Block_Adminhtml_Web_Grid extends Mage_Adminhtml_Block_Widget_G
       $this->setDefaultSort('web_id');
       $this->setDefaultDir('ASC');
       $this->setSaveParametersInSession(true);
+      echo __METHOD__;
   }
 
   protected function _prepareCollection()
@@ -71,6 +72,12 @@ class Company_Web_Block_Adminhtml_Web_Grid extends Mage_Adminhtml_Block_Widget_G
                 'index'     => 'stores',
                 'is_system' => true,
         ));
+      $this->addColumn('note', array(
+          'header'    => Mage::helper('web')->__('Note'),
+          'align'     =>'left',
+          'width'   => '100px',
+          'index'     => 'note',
+      ));
 		
 		$this->addExportType('*/*/exportCsv', Mage::helper('web')->__('CSV'));
 		$this->addExportType('*/*/exportXml', Mage::helper('web')->__('XML'));
