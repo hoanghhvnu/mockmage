@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <config>
-    <tabs>
-        <album translate="label" module="album">
-            <label>Album</label>
-            <sort_order>100</sort_order>
-        </album>
-    </tabs>
+    <!--<tabs>-->
+        <!--<album translate="label" module="album">-->
+            <!--<label>Album</label>-->
+            <!--<sort_order>100</sort_order>-->
+        <!--</album>-->
+    <!--</tabs>-->
 
     <sections>
         <advanced translate="label" module="core">
-            <label>Disable/Enable</label>
-            <tab>album</tab>
+            <label>Album</label>
+            <tab>mymodule</tab>
             <frontend_type>text</frontend_type>
             <sort_order>0</sort_order>
             <show_in_default>1</show_in_default>

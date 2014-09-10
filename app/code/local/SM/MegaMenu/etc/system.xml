@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <config>
     <tabs>
-        <megamenu translate="label" module="megamenu">
-            <label>megamenu</label>
-            <sort_order>210</sort_order>
-        </megamenu>
+        <mymodule translate="label">
+            <label>My module config</label>
+            <sort_order>10</sort_order>
+        </mymodule>
     </tabs>
     <sections>
         <sm_megamenu>
-            <label>Enable/Disable</label>
-            <tab>megamenu</tab>
+            <label>Megamenu</label>
+            <tab>mymodule</tab>
             <frontend_type>text</frontend_type>
             <sort_order>10</sort_order>
             <show_in_default>1</show_in_default>
@@ -17,7 +17,7 @@
             <show_in_store>1</show_in_store>
             <groups>
                 <sm_megamenu translate="label">
-                    <label>Enabled/Disabled</label>
+                    <label>General</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>2000</sort_order>
                     <show_in_default>1</show_in_default>

@@ -10,9 +10,9 @@ $installer->startSetup();
 
 $installer->run("
 
--- DROP TABLE IF EXISTS {$this->getTable('slider/slider')};
--- DROP TABLE IF EXISTS {$this->getTable('slider/imageslider')};
--- DROP TABLE IF EXISTS {$this->getTable('slider/mapslider')};
+ DROP TABLE IF EXISTS {$this->getTable('slider/slider')};
+ DROP TABLE IF EXISTS {$this->getTable('slider/imageslider')};
+ DROP TABLE IF EXISTS {$this->getTable('slider/mapslider')};
 
 CREATE TABLE {$this->getTable('slider/slider')} (
   `slider_id` int(11) unsigned NOT NULL auto_increment,
@@ -27,6 +27,7 @@ CREATE TABLE {$this->getTable('slider/imageslider')} (
   `title` varchar(255) NOT NULL,
   `imagename` varchar(255) NOT NULL,
   `description` text,
+  `slider_id` int(11),
   `status` smallint(6) NOT NULL default '1',
   PRIMARY KEY (`image_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

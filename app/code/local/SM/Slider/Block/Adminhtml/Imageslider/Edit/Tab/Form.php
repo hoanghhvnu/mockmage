@@ -27,6 +27,12 @@ class SM_Slider_Block_Adminhtml_Imageslider_Edit_Tab_Form extends Mage_Adminhtml
           'name'      => 'description',
       ));
 
+      $fieldset->addField('slider_id', 'select', array(
+          'label'     => Mage::helper('slider')->__('Slider'),
+          'name'      => 'slider_id',
+          'values'    => $this->getListSlider(),
+      ));
+
       $fieldset->addField('status', 'select', array(
           'label'     => Mage::helper('slider')->__('Status'),
           'name'      => 'status',
@@ -54,5 +60,26 @@ class SM_Slider_Block_Adminhtml_Imageslider_Edit_Tab_Form extends Mage_Adminhtml
       return parent::_prepareForm();
   }
 
+    /**
+     * get all slider to select
+     */
+    public function getListSlider(){
+        $SliderCollection = Mage::getModel('slider/slider')
+            ->getCollection()
+        ;
+//        echo "<pre>";
+//        var_dump($SliderCollection->getData());
+        $ResultArray = array();
+        foreach ($SliderCollection as $Slider){
+            $temp = array();
+            if($Slider['status'] == 2){
+                continue;
+            }
+            $temp['label'] = $Slider['title'];
+            $temp['value'] = $Slider['slider_id'];
+            $ResultArray[] = $temp;
+        } // end foreach
+        return $ResultArray;
+    } // end method getListSlider
 } // end class
 // end file

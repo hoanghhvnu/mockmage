@@ -21,6 +21,8 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
 
   protected function _prepareColumns()
   {
+//      $this->getListSlider();
+//      die();
       $this->addColumn('image_id', array(
           'header'    => Mage::helper('slider')->__('ID'),
           'align'     =>'right',
@@ -54,6 +56,13 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
           'header'    => Mage::helper('slider')->__('Description'),
           'align'     =>'left',
           'index'     => 'description',
+      ));
+
+      $this->addColumn('slider_id', array(
+          'header'    => Mage::helper('slider')->__('Slider ID'),
+          'align'   => 'left',
+          'index'     => 'slider_id',
+
       ));
 
       $this->addColumn('status', array(
@@ -131,4 +140,6 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
       return $this->getUrl('*/*/edit', array('id' => $row->getId()));
   }
 
-}
+
+} // end class
+// end file
