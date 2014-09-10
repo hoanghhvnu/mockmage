@@ -12,18 +12,30 @@ $installer->run("
 
 -- DROP TABLE IF EXISTS {$this->getTable('slider/slider')};
 -- DROP TABLE IF EXISTS {$this->getTable('slider/imageslider')};
+-- DROP TABLE IF EXISTS {$this->getTable('slider/mapslider')};
+
 CREATE TABLE {$this->getTable('slider/slider')} (
   `slider_id` int(11) unsigned NOT NULL auto_increment,
   `title` varchar(255) not null,
-  `status` smallint(6) NOT NULL default '0',
+  `type` varchar(255),
+  `status` smallint(6) NOT NULL default '1',
   PRIMARY KEY (`slider_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;CREATE TABLE {$this->getTable('slider/imageslider')} (
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE {$this->getTable('slider/imageslider')} (
   `image_id` int(11) unsigned NOT NULL auto_increment,
-  `slider_id` int(11) not null,
-  `image_name` varchar(255) NOT NULL,
-  `description` varchar(255),
-  `status` smallint(6) NOT NULL default '0',
+  `title` varchar(255) NOT NULL,
+  `imagename` varchar(255) NOT NULL,
+  `description` text,
+  `status` smallint(6) NOT NULL default '1',
   PRIMARY KEY (`image_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE {$this->getTable('slider/mapslider')} (
+  `map_id` int(11) unsigned NOT NULL auto_increment,
+  `slider_id` int(11) NOT NULL,
+   `image_id` int(11) NOT NULL,
+  PRIMARY KEY (`map_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     ");
 

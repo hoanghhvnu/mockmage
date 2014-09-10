@@ -31,9 +31,15 @@ class SM_Slider_Block_Adminhtml_Slider_Grid extends Mage_Adminhtml_Block_Widget_
       $this->addColumn('title', array(
           'header'    => Mage::helper('slider')->__('Title'),
           'align'     =>'left',
-
           'index'     => 'title',
       ));
+
+      $this->addColumn('type', array(
+          'header'    => Mage::helper('slider')->__('Type'),
+          'align'     =>'left',
+          'index'     => 'type',
+      ));
+
       $this->addColumn('status', array(
           'header'    => Mage::helper('slider')->__('Status'),
           'align'     => 'left',

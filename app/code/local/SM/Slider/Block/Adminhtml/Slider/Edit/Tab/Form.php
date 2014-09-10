@@ -14,6 +14,12 @@ class SM_Slider_Block_Adminhtml_Slider_Edit_Tab_Form extends Mage_Adminhtml_Bloc
           'required'  => true,
           'name'      => 'title',
       ));
+
+      $fieldset->addField('type', 'text', array(
+          'label'     => Mage::helper('slider')->__('Type'),
+          'name'      => 'type',
+      ));
+
       $fieldset->addField('status', 'select', array(
           'label'     => Mage::helper('slider')->__('Status'),
           'name'      => 'status',

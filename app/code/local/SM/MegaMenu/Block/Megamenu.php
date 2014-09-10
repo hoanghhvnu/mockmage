@@ -2,7 +2,7 @@
 class SM_Megamenu_Block_Megamenu extends Mage_Core_Block_Template
 {
     public function __construct(){
-        echo __METHOD__;
+//        echo __METHOD__;
         return parent::__construct();
     }
 	public function _prepareLayout()

@@ -1,33 +1,24 @@
 <?php
 
-class SM_Megamenu_Adminhtml_MegamenuController extends Mage_Adminhtml_Controller_action
+class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controller_action
 {
 
 	protected function _initAction() {
 		$this->loadLayout()
-			->_setActiveMenu('megamenu/items')
+			->_setActiveMenu('slider/items')
 			->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
 		
 		return $this;
 	}   
  
 	public function indexAction() {
-//        echo __METHOD__;
-
-//        // get all cms/block
-//        $collection = Mage::getModel('cms/block')->getCollection()
-//            ->addFieldToSelect('block_id')
-//            ->addFieldToSelect('title')
-//            ->addFieldToSelect('identifier');
-//        echo "<pre>";
-//        var_dump( $collection->getData());
 		$this->_initAction()
 			->renderLayout();
 	}
 
 	public function editAction() {
 		$id     = $this->getRequest()->getParam('id');
-		$model  = Mage::getModel('megamenu/megamenu')->load($id);
+		$model  = Mage::getModel('slider/imageslider')->load($id);
 
 		if ($model->getId() || $id == 0) {
 			$data = Mage::getSingleton('adminhtml/session')->getFormData(true);
@@ -35,22 +26,22 @@ class SM_Megamenu_Adminhtml_MegamenuController extends Mage_Adminhtml_Controller
 				$model->setData($data);
 			}
 
-			Mage::register('megamenu_data', $model);
+			Mage::register('imageslider_data', $model);
 
 			$this->loadLayout();
-			$this->_setActiveMenu('megamenu/items');
+			$this->_setActiveMenu('slider/items');
 
 			$this->_addBreadcrumb(Mage::helper('adminhtml')->__('Item Manager'), Mage::helper('adminhtml')->__('Item Manager'));
 			$this->_addBreadcrumb(Mage::helper('adminhtml')->__('Item News'), Mage::helper('adminhtml')->__('Item News'));
 
 			$this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-			$this->_addContent($this->getLayout()->createBlock('megamenu/adminhtml_megamenu_edit'))
-				->_addLeft($this->getLayout()->createBlock('megamenu/adminhtml_megamenu_edit_tabs'));
+			$this->_addContent($this->getLayout()->createBlock('slider/adminhtml_imageslider_edit'))
+				->_addLeft($this->getLayout()->createBlock('slider/adminhtml_imageslider_edit_tabs'));
 
 			$this->renderLayout();
 		} else {
-			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('megamenu')->__('Item does not exist'));
+			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('slider')->__('Item does not exist'));
 			$this->_redirect('*/*/');
 		}
 	}
@@ -61,11 +52,12 @@ class SM_Megamenu_Adminhtml_MegamenuController extends Mage_Adminhtml_Controller
  
 	public function saveAction() {
 		if ($data = $this->getRequest()->getPost()) {
-			
-			if(isset($_FILES['filename']['name']) && $_FILES['filename']['name'] != '') {
+
+			if(isset($_FILES['imagename']['name']) && $_FILES['imagename']['name'] != '') {
+
 				try {	
 					/* Starting upload */	
-					$uploader = new Varien_File_Uploader('filename');
+					$uploader = new Varien_File_Uploader('imagename');
 					
 					// Any extention would work
 	           		$uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
@@ -76,23 +68,34 @@ class SM_Megamenu_Adminhtml_MegamenuController extends Mage_Adminhtml_Controller
 					// true -> get the file in the product like folders 
 					//	(file.jpg will go in something like /media/f/i/file.jpg)
 					$uploader->setFilesDispersion(false);
+                    $NewName = time() . $_FILES['imagename']['name'];
 							
 					// We set media as the upload dir
-					$path = Mage::getBaseDir('media') . DS ;
-					$uploader->save($path, $_FILES['filename']['name'] );
+					$path = Mage::getBaseDir('media') . DS . 'images' . DS . 'slider';
+//					$uploader->save($path, $_FILES['imagename']['name'] );
+                    $uploader->save($path, $NewName );
 					
 				} catch (Exception $e) {
 		      
 		        }
 	        
 		        //this way the name is saved in DB
-	  			$data['filename'] = $_FILES['filename']['name'];
-			}
+//	  			$data['imagename'] = $_FILES['imagename']['name'];
+                $data['imagename'] = $NewName;
+			} // end if valid file
 	  			
-	  			
-			$model = Mage::getModel('megamenu/megamenu');
+//	  		echo "<pre>";
+//            var_dump($data);
+//            die();
+			$model = Mage::getModel('slider/imageslider');
+//            echo $data['imagename'];
+//            die();
+//            $model->setImagename($data['imagename']);
 			$model->setData($data)
-				->setId($this->getRequest()->getParam('id'));
+				->setId($this->getRequest()->getParam('id'))
+
+            ;
+
 			
 			try {
 				if ($model->getCreatedTime == NULL || $model->getUpdateTime() == NULL) {
@@ -103,7 +106,7 @@ class SM_Megamenu_Adminhtml_MegamenuController extends Mage_Adminhtml_Controller
 				}	
 				
 				$model->save();
-				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('megamenu')->__('Item was successfully saved'));
+				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('slider')->__('Item was successfully saved'));
 				Mage::getSingleton('adminhtml/session')->setFormData(false);
 
 				if ($this->getRequest()->getParam('back')) {
@@ -119,14 +122,14 @@ class SM_Megamenu_Adminhtml_MegamenuController extends Mage_Adminhtml_Controller
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('megamenu')->__('Unable to find item to save'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('slider')->__('Unable to find item to save'));
         $this->_redirect('*/*/');
 	}
  
 	public function deleteAction() {
 		if( $this->getRequest()->getParam('id') > 0 ) {
 			try {
-				$model = Mage::getModel('megamenu/megamenu');
+				$model = Mage::getModel('slider/imageslider');
 				 
 				$model->setId($this->getRequest()->getParam('id'))
 					->delete();
@@ -142,18 +145,18 @@ class SM_Megamenu_Adminhtml_MegamenuController extends Mage_Adminhtml_Controller
 	}
 
     public function massDeleteAction() {
-        $megamenuIds = $this->getRequest()->getParam('megamenu');
-        if(!is_array($megamenuIds)) {
+        $sliderIds = $this->getRequest()->getParam('imageslider');
+        if(!is_array($sliderIds)) {
 			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select item(s)'));
         } else {
             try {
-                foreach ($megamenuIds as $megamenuId) {
-                    $megamenu = Mage::getModel('megamenu/megamenu')->load($megamenuId);
-                    $megamenu->delete();
+                foreach ($sliderIds as $sliderId) {
+                    $slider = Mage::getModel('slider/imageslider')->load($sliderId);
+                    $slider->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('adminhtml')->__(
-                        'Total of %d record(s) were successfully deleted', count($megamenuIds)
+                        'Total of %d record(s) were successfully deleted', count($sliderIds)
                     )
                 );
             } catch (Exception $e) {
@@ -165,20 +168,20 @@ class SM_Megamenu_Adminhtml_MegamenuController extends Mage_Adminhtml_Controller
 	
     public function massStatusAction()
     {
-        $megamenuIds = $this->getRequest()->getParam('megamenu');
-        if(!is_array($megamenuIds)) {
+        $sliderIds = $this->getRequest()->getParam('imageslider');
+        if(!is_array($sliderIds)) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select item(s)'));
         } else {
             try {
-                foreach ($megamenuIds as $megamenuId) {
-                    $megamenu = Mage::getSingleton('megamenu/megamenu')
-                        ->load($megamenuId)
+                foreach ($sliderIds as $sliderId) {
+                    $slider = Mage::getSingleton('slider/imageslider')
+                        ->load($sliderId)
                         ->setStatus($this->getRequest()->getParam('status'))
                         ->setIsMassupdate(true)
                         ->save();
                 }
                 $this->_getSession()->addSuccess(
-                    $this->__('Total of %d record(s) were successfully updated', count($megamenuIds))
+                    $this->__('Total of %d record(s) were successfully updated', count($sliderIds))
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

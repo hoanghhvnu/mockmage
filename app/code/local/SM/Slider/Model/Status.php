@@ -1,3 +1,4 @@
+
 <?php
 
 class SM_Slider_Model_Status extends Varien_Object

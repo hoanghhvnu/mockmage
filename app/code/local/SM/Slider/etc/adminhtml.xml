@@ -10,11 +10,16 @@
                     <sort_order>0</sort_order>
                     <action>slider/adminhtml_slider</action>
                 </items>
-                <!--<item2 translate="title" module="adminhtml">-->
-                    <!--<title>Settings</title>-->
-                    <!--<sort_order>2</sort_order>-->
-                    <!--<action>admin/system_config</action>-->
-                <!--</item2>-->
+                <item2 translate="title">
+                    <title>Manage image</title>
+                    <sort_order>1</sort_order>
+                    <action>slider/adminhtml_imageslider</action>
+                </item2>
+                <item3 translate="title">
+                    <title>Manage map</title>
+                    <sort_order>2</sort_order>
+                    <action>slider/adminhtml_mapslider</action>
+                </item3>
 
             </children>
         </slider>
@@ -24,27 +29,7 @@
             <all>
                 <title>Allow Everything</title>
             </all>
-            <!--<admin>-->
-                <!--<children>-->
-                    <!--<SM_Slider>-->
-                        <!--<title>mega Module</title>-->
-                        <!--<sort_order>10</sort_order>-->
-                    <!--</SM_Slider>-->
 
-                    <!--<system>-->
-                        <!--<children>-->
-                            <!--<config>-->
-                                <!--<children>-->
-                                    <!--<slider>-->
-                                        <!--<title>SM Slider List</title>-->
-                                    <!--</slider>-->
-                                <!--</children>-->
-                            <!--</config>-->
-                        <!--</children>-->
-                    <!--</system>-->
-
-                <!--</children>-->
-            <!--</admin>-->
             <admin>
                 <children>
                     <system>

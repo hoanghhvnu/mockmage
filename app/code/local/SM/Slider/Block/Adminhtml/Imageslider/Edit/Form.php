@@ -1,6 +1,6 @@
 <?php
 
-class SM_Slider_Block_Adminhtml_Slider_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class SM_Slider_Block_Adminhtml_Imageslider_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
   protected function _prepareForm()
   {

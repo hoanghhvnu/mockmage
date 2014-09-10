@@ -58,11 +58,14 @@
                     <slider>
                         <table>tbl_slider</table>
                     </slider>
-                </entities>
-                <entities>
+                <!--</entities>-->
+                <!--<entities>-->
                     <imageslider>
                         <table>tbl_imageslider</table>
                     </imageslider>
+                    <mapslider>
+                        <table>tbl_mapslider</table>
+                    </mapslider>
                 </entities>
             </slider_mysql4>
         </models>

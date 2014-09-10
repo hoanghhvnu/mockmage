@@ -4,7 +4,7 @@ class SM_Megamenu_Block_Adminhtml_Megamenu_Grid extends Mage_Adminhtml_Block_Wid
 {
   public function __construct()
   {
-      echo __METHOD__;
+//      echo __METHOD__;
       parent::__construct();
       $this->setId('megamenuGrid');
       $this->setDefaultSort('megamenu_id');

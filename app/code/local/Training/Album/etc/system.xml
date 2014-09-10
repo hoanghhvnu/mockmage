@@ -3,7 +3,7 @@
     <tabs>
         <album translate="label" module="album">
             <label>Album</label>
-            <sort_order>10</sort_order>
+            <sort_order>100</sort_order>
         </album>
     </tabs>
 
