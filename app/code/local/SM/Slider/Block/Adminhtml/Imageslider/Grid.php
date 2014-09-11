@@ -110,13 +110,24 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
         $this->setMassactionIdField('image_id');
         $this->getMassactionBlock()->setFormFieldName('imageslider');
 
+        // for detete
         $this->getMassactionBlock()->addItem('delete', array(
              'label'    => Mage::helper('slider')->__('Delete'),
              'url'      => $this->getUrl('*/*/massDelete'),
              'confirm'  => Mage::helper('slider')->__('Are you sure?')
         ));
 
+        // for status
         $statuses = Mage::getSingleton('slider/status')->getOptionArray();
+        /**
+         * dump statuses
+         * array(2) {
+            [1]=>
+            string(7) "Enabled"
+            [2]=>
+            string(8) "Disabled"
+        }
+         */
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
@@ -132,6 +143,24 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
                      )
              )
         ));
+
+        // HoangHH
+        // for assign to slider
+        $list = $this->getListSlider();
+            array_unshift($list, array('label'=>'', 'value'=>''));
+        $this->getMassactionBlock()->addItem('setslider', array(
+            'label'=> Mage::helper('slider')->__('Set slider id'),
+            'url'  => $this->getUrl('*/*/massSetslider', array('_current'=>true)),
+            'additional' => array(
+                'visibility' => array(
+                    'name' => 'setslider',
+                    'type' => 'select',
+                    'class' => 'required-entry',
+                    'label' => Mage::helper('slider')->__('Slider'),
+                    'values' => $list,
+                )
+            )
+        ));
         return $this;
     }
 
@@ -140,6 +169,25 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
       return $this->getUrl('*/*/edit', array('id' => $row->getId()));
   }
 
-
+    // HoangHH
+    public function getListSlider(){
+        $SliderCollection = Mage::getModel('slider/slider')
+            ->getCollection()
+        ;
+//        echo "<pre>";
+//        var_dump($SliderCollection->getData());
+        $ResultArray = array();
+        foreach ($SliderCollection as $Slider){
+//            $temp = array();
+            if($Slider['status'] == 2){
+                continue;
+            }
+//            $temp['label'] = $Slider['title'];
+//            $temp['value'] = $Slider['slider_id'];
+//            $ResultArray[] = $temp;
+            $ResultArray[$Slider['slider_id']] = $Slider['title'];
+        } // end foreach
+        return $ResultArray;
+    } // end method getListSlider
 } // end class
 // end file

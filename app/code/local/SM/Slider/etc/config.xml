@@ -104,4 +104,7 @@
             </slider>
         </helpers>
     </global>
+
+    <!--default value to config-->
+
 </config>

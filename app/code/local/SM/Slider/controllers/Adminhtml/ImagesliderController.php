@@ -17,6 +17,7 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
 	}
 
 	public function editAction() {
+//        $isRequireFile = $this->getRequest()->getParam('require-file');
 		$id     = $this->getRequest()->getParam('id');
 		$model  = Mage::getModel('slider/imageslider')->load($id);
 
@@ -188,5 +189,30 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
             }
         }
         $this->_redirect('*/*/index');
-    }
+    } // end massStatusAction
+
+    // Hoang HH
+    public function massSetsliderAction()
+    {
+        $sliderIds = $this->getRequest()->getParam('imageslider');
+        if(!is_array($sliderIds)) {
+            Mage::getSingleton('adminhtml/session')->addError($this->__('Please select item(s)'));
+        } else {
+            try {
+                foreach ($sliderIds as $sliderId) {
+                    $slider = Mage::getSingleton('slider/imageslider')
+                        ->load($sliderId)
+                        ->setSliderId($this->getRequest()->getParam('setslider'))
+                        ->setIsMassupdate(true)
+                        ->save();
+                }
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d record(s) were successfully updated', count($sliderIds))
+                );
+            } catch (Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/index');
+    } // end massStatusAction
 }
