@@ -14,7 +14,11 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
 
   protected function _prepareCollection()
   {
+      $SliderId = $this->getRequest()->getParam('slider_id');
       $collection = Mage::getModel('slider/imageslider')->getCollection();
+      if($SliderId != ''){
+          $collection = $collection->addFieldToFilter('slider_id', array('eq' => $SliderId));
+      }
       $this->setCollection($collection);
       return parent::_prepareCollection();
   }
@@ -66,10 +70,10 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
 
       $this->addColumn('slider_id', array(
           'header'    => Mage::helper('slider')->__('Slider ID'),
-          'align'   => 'left',
+          'align'     => 'left',
           'index'     => 'slider_id',
-//          'type'      => 'options',
-//          'options'   => $this->getListSlider(),
+          'type'      => 'options',
+          'options'   => $this->getListSlider(),
 
       ));
 

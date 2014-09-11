@@ -52,6 +52,10 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
 	}
  
 	public function saveAction() {
+        $ImageInfo = $_FILES['imagename'];
+//        echo "<pre>";
+//        var_dump($ImageInfo);
+//        die();
 		if ($data = $this->getRequest()->getPost()) {
 
 			if(isset($_FILES['imagename']['name']) && $_FILES['imagename']['name'] != '') {
@@ -75,14 +79,15 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
 					$path = Mage::getBaseDir('media') . DS . 'images' . DS . 'slider';
 //					$uploader->save($path, $_FILES['imagename']['name'] );
                     $uploader->save($path, $NewName );
-					
+                    $data['imagename'] = $uploader->getUploadedFileName();
 				} catch (Exception $e) {
 		      
 		        }
 	        
 		        //this way the name is saved in DB
 //	  			$data['imagename'] = $_FILES['imagename']['name'];
-                $data['imagename'] = $NewName;
+//                $data['imagename'] = $NewName;
+
 			} // end if valid file
 	  			
 //	  		echo "<pre>";

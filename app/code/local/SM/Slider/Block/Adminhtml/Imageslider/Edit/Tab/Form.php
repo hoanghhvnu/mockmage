@@ -16,6 +16,7 @@ class SM_Slider_Block_Adminhtml_Imageslider_Edit_Tab_Form extends Mage_Adminhtml
       ));
 
       $ImageName = $fieldset->addField('imagename', 'file', array(
+//      $ImageName = $fieldset->addField('imagename', 'image', array(
           'label'     => Mage::helper('slider')->__('Image'),
 //          'class'     => 'required-entry',
 //          'required'  => true,

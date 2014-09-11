@@ -7,7 +7,7 @@
             <children>
                 <items translate="title">
                     <title>Manage menu</title>
-                    <sort_order>0</sort_order>
+                    <sort_order>10</sort_order>
                     <action>megamenu/adminhtml_megamenu</action>
                 </items>
                 <!--<item2 translate="title" module="adminhtml">-->
@@ -16,9 +16,9 @@
                     <!--<action>admin/system_config</action>-->
                 <!--</item2>-->
                 <setting module="admin">
-                    <title>Settings</title>
+                    <title>Config</title>
                     <sort_order>20</sort_order>
-                    <action>adminhtml/system_config</action>
+                    <action>adminhtml/system_config/edit/section/sm_megamenu</action>
                 </setting>
             </children>
         </megamenu>
