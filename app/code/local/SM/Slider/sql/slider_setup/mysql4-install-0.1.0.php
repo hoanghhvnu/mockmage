@@ -25,6 +25,7 @@ CREATE TABLE {$this->getTable('slider/slider')} (
 CREATE TABLE {$this->getTable('slider/imageslider')} (
   `image_id` int(11) unsigned NOT NULL auto_increment,
   `title` varchar(255) NOT NULL,
+  `sortorder` int(11) NOT NULL default 999,
   `imagename` varchar(255) NOT NULL,
   `description` text,
   `slider_id` int(11),

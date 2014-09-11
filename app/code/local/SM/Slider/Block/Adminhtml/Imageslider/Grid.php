@@ -46,6 +46,12 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
           'index'     => 'title',
       ));
 
+      $this->addColumn('sortorder', array(
+          'header'    => Mage::helper('slider')->__('Sort Order'),
+          'align'     =>'left',
+          'index'     => 'sortorder',
+      ));
+
       $this->addColumn('imagename', array(
           'header'    => Mage::helper('slider')->__('Image name'),
           'align'     =>'left',
@@ -62,6 +68,8 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
           'header'    => Mage::helper('slider')->__('Slider ID'),
           'align'   => 'left',
           'index'     => 'slider_id',
+//          'type'      => 'options',
+//          'options'   => $this->getListSlider(),
 
       ));
 
@@ -147,7 +155,12 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
         // HoangHH
         // for assign to slider
         $list = $this->getListSlider();
-            array_unshift($list, array('label'=>'', 'value'=>''));
+//        $list[0] = '(Not in any slider)';
+        array_unshift($list,'(Not in any slider)');
+//        array_unshift($list, array('label'=>'', 'value'=>''));
+//        var_dump($list);
+//        die();
+
         $this->getMassactionBlock()->addItem('setslider', array(
             'label'=> Mage::helper('slider')->__('Set slider id'),
             'url'  => $this->getUrl('*/*/massSetslider', array('_current'=>true)),
@@ -158,6 +171,18 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
                     'class' => 'required-entry',
                     'label' => Mage::helper('slider')->__('Slider'),
                     'values' => $list,
+                )
+            )
+        ));
+
+        $this->getMassactionBlock()->addItem('changesortorder', array(
+            'label'=> Mage::helper('slider')->__('Change sort order'),
+            'url'  => $this->getUrl('*/*/massChangesortorder', array('_current'=>true)),
+            'additional' => array(
+                'visibility' => array(
+                    'name' => 'changesortorder',
+                    'type' => 'text',
+
                 )
             )
         ));
@@ -179,9 +204,9 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
         $ResultArray = array();
         foreach ($SliderCollection as $Slider){
 //            $temp = array();
-            if($Slider['status'] == 2){
-                continue;
-            }
+//            if($Slider['status'] == 2){
+//                continue;
+//            }
 //            $temp['label'] = $Slider['title'];
 //            $temp['value'] = $Slider['slider_id'];
 //            $ResultArray[] = $temp;

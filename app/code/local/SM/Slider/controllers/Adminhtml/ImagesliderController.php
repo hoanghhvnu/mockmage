@@ -215,4 +215,28 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
         }
         $this->_redirect('*/*/index');
     } // end massStatusAction
+
+    public function massChangesortorderAction()
+    {
+        $sliderIds = $this->getRequest()->getParam('imageslider');
+        if(!is_array($sliderIds)) {
+            Mage::getSingleton('adminhtml/session')->addError($this->__('Please select item(s)'));
+        } else {
+            try {
+                foreach ($sliderIds as $sliderId) {
+                    $slider = Mage::getSingleton('slider/imageslider')
+                        ->load($sliderId)
+                        ->setSortorder($this->getRequest()->getParam('changesortorder'))
+                        ->setIsMassupdate(true)
+                        ->save();
+                }
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d record(s) were successfully updated', count($sliderIds))
+                );
+            } catch (Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/index');
+    } // end massStatusAction
 }

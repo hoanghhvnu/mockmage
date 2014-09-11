@@ -8,14 +8,14 @@ class SM_Megamenu_Block_Adminhtml_Megamenu_Edit_Tab_Form extends Mage_Adminhtml_
       $this->setForm($form);
       $fieldset = $form->addFieldset('megamenu_form', array('legend'=>Mage::helper('megamenu')->__('Item information')));
      
-      $fieldset->addField('title', 'text', array(
+      $Title = $fieldset->addField('title', 'text', array(
           'label'     => Mage::helper('megamenu')->__('Title'),
           'class'     => 'required-entry',
           'required'  => true,
           'name'      => 'title',
       ));
 
-      $fieldset->addField('type', 'select', array(
+      $Type = $fieldset->addField('type', 'select', array(
           'label'     => Mage::helper('megamenu')->__('Type'),
           'name'      => 'type',
           'values'    => array(
@@ -41,14 +41,14 @@ class SM_Megamenu_Block_Adminhtml_Megamenu_Edit_Tab_Form extends Mage_Adminhtml_
 //          'required'  => false,
 //          'name'      => 'filename',
 //	  ));
-      $fieldset->addField('link', 'text', array(
+      $Link = $fieldset->addField('link', 'text', array(
           'label'     => Mage::helper('megamenu')->__('Link'),
           'name'      => 'link',
       ));
 
 
 
-      $fieldset->addField('static_block_id', 'select', array(
+      $StaticBlockId = $fieldset->addField('static_block_id', 'select', array(
           'label'     => Mage::helper('megamenu')->__('Static Block'),
           'name'      => 'static_block_id',
           'values'    => $this->getListStaticBlock(),
@@ -56,7 +56,7 @@ class SM_Megamenu_Block_Adminhtml_Megamenu_Edit_Tab_Form extends Mage_Adminhtml_
       ));
 
 
-      $fieldset->addField('category_id', 'select', array(
+      $CategoryId = $fieldset->addField('category_id', 'select', array(
           'label'     => Mage::helper('megamenu')->__('Category link'),
           'name'      => 'category_id',
           'values'    => $this->getCategoryForForm(),
@@ -64,7 +64,7 @@ class SM_Megamenu_Block_Adminhtml_Megamenu_Edit_Tab_Form extends Mage_Adminhtml_
       ));
 
 
-      $fieldset->addField('status', 'select', array(
+      $Status = $fieldset->addField('status', 'select', array(
           'label'     => Mage::helper('megamenu')->__('Status'),
           'name'      => 'status',
           'values'    => array(
@@ -80,10 +80,10 @@ class SM_Megamenu_Block_Adminhtml_Megamenu_Edit_Tab_Form extends Mage_Adminhtml_
           ),
       ));
 
-      $fieldset->addField('position', 'text', array(
+      $Position = $fieldset->addField('position', 'text', array(
           'label'     => Mage::helper('megamenu')->__('Position'),
 
-            'index' => 'position',
+          'index' => 'position',
           'name'      => 'position',
       ));
 
@@ -98,6 +98,33 @@ class SM_Megamenu_Block_Adminhtml_Megamenu_Edit_Tab_Form extends Mage_Adminhtml_
       } elseif ( Mage::registry('megamenu_data') ) {
           $form->setValues(Mage::registry('megamenu_data')->getData());
       }
+
+      $this->setForm($form);
+      $this->setChild('form_after', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
+              ->addFieldMap($Title->getHtmlId(), $Title->getName())
+              ->addFieldMap($Type->getHtmlId(), $Type->getName())
+              ->addFieldMap($Link->getHtmlId(), $Link->getName())
+              ->addFieldMap($StaticBlockId->getHtmlId(), $StaticBlockId->getName())
+              ->addFieldMap($CategoryId->getHtmlId(), $CategoryId->getName())
+              ->addFieldMap($Status->getHtmlId(), $Status->getName())
+              ->addFieldMap($Position->getHtmlId(), $Position->getName())
+
+              ->addFieldDependence(
+                  $Link->getName(),
+                  $Type->getName(),
+                  '2'
+              )
+              ->addFieldDependence(
+                  $CategoryId->getName(),
+                  $Type->getName(),
+                  '1'
+              )
+              ->addFieldDependence(
+                  $StaticBlockId->getName(),
+                  $Type->getName(),
+                  '3'
+              )
+      );
       return parent::_prepareForm();
   }
 

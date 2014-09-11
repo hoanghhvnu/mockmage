@@ -36,7 +36,20 @@ class SM_Slider_Block_Slider extends Mage_Core_Block_Template
             } // end if valid image
         }  // end foreach
 
-        return $ImageArray;
+        // Order by sort_order field
+        $tempArray = array();
+        foreach ($ImageArray as $key => $value){
+            $tempArray[$key] = $value['sortorder'];
+        }
+        asort($tempArray);
+//        var_dump($tempArray);
+//        die();
+        $SortedImageArray = array();
+        foreach ($tempArray as $key => $value){
+            $SortedImageArray[] = $ImageArray[$key];
+        }
+        return $SortedImageArray;
+//        return $ImageArray;
     } // end method getSliderInfo
 } // end class
 // end file
