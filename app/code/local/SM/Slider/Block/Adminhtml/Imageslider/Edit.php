@@ -10,8 +10,8 @@ class SM_Slider_Block_Adminhtml_Imageslider_Edit extends Mage_Adminhtml_Block_Wi
         $this->_blockGroup = 'slider';
         $this->_controller = 'adminhtml_imageslider';
         
-        $this->_updateButton('save', 'label', Mage::helper('slider')->__('Save Item'));
-        $this->_updateButton('delete', 'label', Mage::helper('slider')->__('Delete Item'));
+        $this->_updateButton('save', 'label', Mage::helper('slider')->__('Save Image'));
+        $this->_updateButton('delete', 'label', Mage::helper('slider')->__('Delete Image'));
 		
         $this->_addButton('saveandcontinue', array(
             'label'     => Mage::helper('adminhtml')->__('Save And Continue Edit'),

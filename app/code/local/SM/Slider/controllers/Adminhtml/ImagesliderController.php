@@ -1,22 +1,42 @@
 <?php
 
-class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controller_action
+class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controller_Action
 {
+    protected  $_RedirectLink = '*/*/index';
 
+
+    public function checkFilter(){
+        // Hoang HH
+//        parent::__construct();
+        $FilterSliderId = $this->getRequest()->getParam('filtersliderid');
+        if($FilterSliderId != ''){
+
+            $this->_RedirectLink = '*/*/index' .  '/filtersliderid/' . $FilterSliderId;
+        } else{
+            $this->_RedirectLink = '*/*/index';
+        }
+//        parent::__construct();
+    } // end method checkFilter
 	protected function _initAction() {
 		$this->loadLayout()
 			->_setActiveMenu('slider/items')
 			->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
-		
+
+        
 		return $this;
 	}   
  
 	public function indexAction() {
+//        $SliderId = $this->getRequest()->getParam('slider_id');
+//        var_dump($SliderId);
 		$this->_initAction()
 			->renderLayout();
 	}
 
 	public function editAction() {
+        $this->checkFilter();
+//        $SliderId = $this->getRequest()->getParam('slider_id');
+//        var_dump($SliderId);
 //        $isRequireFile = $this->getRequest()->getParam('require-file');
 		$id     = $this->getRequest()->getParam('id');
 		$model  = Mage::getModel('slider/imageslider')->load($id);
@@ -43,7 +63,7 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
 			$this->renderLayout();
 		} else {
 			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('slider')->__('Item does not exist'));
-			$this->_redirect('*/*/');
+            $this->_redirect($this->_RedirectLink);
 		}
 	}
  
@@ -52,14 +72,10 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
 	}
  
 	public function saveAction() {
-        $ImageInfo = $_FILES['imagename'];
-//        echo "<pre>";
-//        var_dump($ImageInfo);
-//        die();
+        $this->checkFilter();
+
 		if ($data = $this->getRequest()->getPost()) {
-
 			if(isset($_FILES['imagename']['name']) && $_FILES['imagename']['name'] != '') {
-
 				try {	
 					/* Starting upload */	
 					$uploader = new Varien_File_Uploader('imagename');
@@ -83,20 +99,11 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
 				} catch (Exception $e) {
 		      
 		        }
-	        
-		        //this way the name is saved in DB
-//	  			$data['imagename'] = $_FILES['imagename']['name'];
-//                $data['imagename'] = $NewName;
 
 			} // end if valid file
-	  			
-//	  		echo "<pre>";
-//            var_dump($data);
-//            die();
+
 			$model = Mage::getModel('slider/imageslider');
-//            echo $data['imagename'];
-//            die();
-//            $model->setImagename($data['imagename']);
+
 			$model->setData($data)
 				->setId($this->getRequest()->getParam('id'))
 
@@ -115,11 +122,16 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
 				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('slider')->__('Item was successfully saved'));
 				Mage::getSingleton('adminhtml/session')->setFormData(false);
 
+
 				if ($this->getRequest()->getParam('back')) {
+//                    die('do back action');
+//					$this->_redirect('*/*/edit', array('id' => $model->getId()));
 					$this->_redirect('*/*/edit', array('id' => $model->getId()));
 					return;
 				}
-				$this->_redirect('*/*/');
+
+                $this->_redirect($this->_RedirectLink);
+//				$this->_redirect('*/*/');
 				return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -127,12 +139,14 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
-        }
+        } // end if get post ok
         Mage::getSingleton('adminhtml/session')->addError(Mage::helper('slider')->__('Unable to find item to save'));
-        $this->_redirect('*/*/');
+        $this->_redirect($this->_RedirectLink);
+//        $this->_redirect('*/*/');
 	}
  
 	public function deleteAction() {
+        $this->checkFilter();
 		if( $this->getRequest()->getParam('id') > 0 ) {
 			try {
 				$model = Mage::getModel('slider/imageslider');
@@ -141,16 +155,19 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
 					->delete();
 					 
 				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Item was successfully deleted'));
-				$this->_redirect('*/*/');
+                $this->_redirect($this->_RedirectLink);
+//                $this->_redirect('*/*/');
 			} catch (Exception $e) {
 				Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
 				$this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
 			}
 		}
-		$this->_redirect('*/*/');
+        $this->_redirect($this->_RedirectLink);
+//		$this->_redirect('*/*/');
 	}
 
     public function massDeleteAction() {
+        $this->checkFilter();
         $sliderIds = $this->getRequest()->getParam('imageslider');
         if(!is_array($sliderIds)) {
 			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select item(s)'));
@@ -169,11 +186,13 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect($this->_RedirectLink);
+//        $this->_redirect('*/*/index');
     }
 	
     public function massStatusAction()
     {
+        $this->checkFilter();
         $sliderIds = $this->getRequest()->getParam('imageslider');
         if(!is_array($sliderIds)) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select item(s)'));
@@ -193,12 +212,14 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
                 $this->_getSession()->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect($this->_RedirectLink);
+//        $this->_redirect('*/*/index');
     } // end massStatusAction
 
     // Hoang HH
     public function massSetsliderAction()
     {
+        $this->checkFilter();
         $sliderIds = $this->getRequest()->getParam('imageslider');
         if(!is_array($sliderIds)) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select item(s)'));
@@ -218,11 +239,13 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
                 $this->_getSession()->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect($this->_RedirectLink);
+//        $this->_redirect('*/*/index');
     } // end massStatusAction
 
     public function massChangesortorderAction()
     {
+        $this->checkFilter();
         $sliderIds = $this->getRequest()->getParam('imageslider');
         if(!is_array($sliderIds)) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select item(s)'));
@@ -242,6 +265,7 @@ class SM_Slider_Adminhtml_ImagesliderController extends Mage_Adminhtml_Controlle
                 $this->_getSession()->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/index');
+        $this->_redirect($this->_RedirectLink);
+//        $this->_redirect('*/*/index');
     } // end massStatusAction
 }

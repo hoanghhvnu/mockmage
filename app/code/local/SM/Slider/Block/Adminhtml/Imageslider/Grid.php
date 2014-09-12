@@ -14,7 +14,7 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
 
   protected function _prepareCollection()
   {
-      $SliderId = $this->getRequest()->getParam('slider_id');
+      $SliderId = $this->getRequest()->getParam('filtersliderid');
       $collection = Mage::getModel('slider/imageslider')->getCollection();
       if($SliderId != ''){
           $collection = $collection->addFieldToFilter('slider_id', array('eq' => $SliderId));
@@ -90,7 +90,11 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
       ));
 
 
-	  
+      $SliderId = $this->getRequest()->getParam('filtersliderid');
+	  $LinkRedirect = array('base' => '*/*/edit');
+      if($SliderId != ''){
+          $LinkRedirect['base'] .= '/filtersliderid/' . $SliderId;
+      }
         $this->addColumn('action',
             array(
                 'header'    =>  Mage::helper('slider')->__('Action'),
@@ -100,7 +104,8 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
                 'actions'   => array(
                     array(
                         'caption'   => Mage::helper('slider')->__('Edit'),
-                        'url'       => array('base'=> '*/*/edit'),
+//                        'url'       => array('base'=> '*/*/edit/'),
+                        'url' => $LinkRedirect,
                         'field'     => 'id'
                     )
                 ),
@@ -195,7 +200,7 @@ class SM_Slider_Block_Adminhtml_Imageslider_Grid extends Mage_Adminhtml_Block_Wi
 
   public function getRowUrl($row)
   {
-      return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+//      return $this->getUrl('*/*/edit', array('id' => $row->getId()));
   }
 
     // HoangHH
