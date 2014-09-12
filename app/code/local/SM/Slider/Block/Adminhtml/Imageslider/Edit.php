@@ -12,7 +12,22 @@ class SM_Slider_Block_Adminhtml_Imageslider_Edit extends Mage_Adminhtml_Block_Wi
         
         $this->_updateButton('save', 'label', Mage::helper('slider')->__('Save Image'));
         $this->_updateButton('delete', 'label', Mage::helper('slider')->__('Delete Image'));
-		
+//        $this->_updateButton('back', 'label', Mage::helper('slider')->__('Back'), 'onclick', 'saveAndContinueEdit()');
+		$this->_removeButton('back');
+
+        $SliderId = $this->getRequest()->getParam('filtersliderid');
+        $LinkRedirect = '*/*/index';
+        if($SliderId != ''){
+            $LinkRedirect .= '/filtersliderid/' . $SliderId;
+        }
+        $this->_addButton('back',array(
+            'label' => 'Back',
+//            'onclick' => "window.location = '{$this->getUrl('*/*/index')}'",
+            'onclick' => "window.location = '{$this->getUrl($LinkRedirect)}'",
+            'class' => 'back',
+
+
+        ),-1);
         $this->_addButton('saveandcontinue', array(
             'label'     => Mage::helper('adminhtml')->__('Save And Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
