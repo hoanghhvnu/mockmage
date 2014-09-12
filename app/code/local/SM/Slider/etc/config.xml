@@ -25,13 +25,13 @@
     </frontend>
     <admin>
         <routers>
-			<slider>
+			<sliderrouter>
 				<use>admin</use>
 				<args>
 					<module>SM_Slider</module>
-					<frontName>slider</frontName>
+					<frontName>sliderfront</frontName>
 				</args>
-			</slider>
+			</sliderrouter>
         </routers>
     </admin>
 
