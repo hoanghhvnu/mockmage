@@ -55,8 +55,22 @@ class SM_Megamenu_Block_Megamenu extends Mage_Core_Block_Template
             );
             $ListItem[] = $temp;
         }
+        $this->myAsortObject($ListItem, 'position');
         return $ListItem;
     } // end getMegaItem
+
+    public function myAsortObject(&$object, $property){
+        $arrayKeyValue = array();
+        foreach ($object as $key => $item){
+            $arrayKeyValue[$key] = $item[$property];
+        }
+        asort($arrayKeyValue);
+        $Sorted = array();
+        foreach ($arrayKeyValue as $key => $value){
+            $Sorted[] = $object[$key];
+        }
+        $object = $Sorted;
+    } // end myAsortObject
 
     public function showCategory($CategoryId='', $isRoot=''){
         $CateDetail = Mage::getModel('catalog/category')
