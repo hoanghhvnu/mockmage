@@ -106,5 +106,13 @@
     </global>
 
     <!--default value to config-->
+    <default>
+        <sm_slider>
+            <sm_slider>
+                <slideperview>1</slideperview>
+                <type>dynamic</type>
+            </sm_slider>
+        </sm_slider>
+    </default>
 
 </config>

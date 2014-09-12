@@ -10,7 +10,10 @@ class SM_Slider_Block_Slider extends Mage_Core_Block_Template
     {
 //        echo __METHOD__;
         $SliderStatus = Mage::getStoreConfig('sm_slider/sm_slider/show');
+//        $SliderStatus = Mage::getStoreConfig('sm_slider');
+
 //        var_dump($SliderStatus);
+//        die();
         if($SliderStatus == 1){
 //            $this->getLayout()->getBlock('head')->addItem('skin_css', 'css/idangerous.swiper.css');
             Mage::app()->getLayout()->getBlock('head')->addItem('skin_css', 'css/idangerous.swiper.css');
